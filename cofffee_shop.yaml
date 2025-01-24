@@ -7,13 +7,6 @@
       name: CoffeShop API Support
       url: https://www.coffeeshop.com/support
       email: support@coffeshop.com
-  # Security Schemes
-  # Basic authentication is used for all endpoints.
-  components:
-    securitySchemes:
-      basicAuth:
-        type: http
-        scheme: basic
   security:
     - basicAuth: []  # Apply basic authentication to all paths
   tags:
@@ -30,127 +23,6 @@
       description: Sandbox server (uses test data)
   paths:
     /orders:
-      post: 
-        tags:
-          - Orders
-        summary: Create a new order
-        description: Creates a new order in the coffee shop.
-        operationId: createOrder
-        requestBody:
-          required: true
-          content:
-            application/json:
-              schema:
-                # Order object definition (similar to GET /orders, but without id)
-                type: object
-                properties:
-                  customer_name:
-                    type: string
-                    description: Customer name
-                    example: Jane Doe
-                    minLength: 3
-                    maxLength: 50
-                  items:
-                    type: array
-                    description: Items in the order
-                    items:
-                      # OrderItem object definition
-                      type: object
-                      properties:
-                        menu_item_id:
-                          type: integer
-                          description: Menu item ID
-                          example: 789
-                        quantity:
-                          type: integer
-                          description: Quantity
-                          example: 1
-                  total_price:
-                    type: number
-                    format: float
-                    description: Total order price
-                    example: 5.25
-        responses:
-          '201':
-            description: Order created
-            content:
-              application/json:
-                schema:
-                  # Order object definition (same as GET /orders)
-                  type: object
-                  properties:
-                    id:
-                      type: integer
-                      readOnly: true
-                      description: Order ID
-                      example: 456
-                    customer_name:
-                      type: string
-                      description: Customer name
-                      example: Jane Doe
-                      minLength: 3
-                      maxLength: 50
-                    items:
-                      type: array
-                      description: Items in the order
-                      items:
-                        # OrderItem object definition
-                        type: object
-                        properties:
-                          menu_item_id:
-                            type: integer
-                            description: Menu item ID
-                            example: 789
-                          quantity:
-                            type: integer
-                            description: Quantity
-                            example: 1
-                    total_price:
-                      type: number
-                      format: float
-                      description: Total order price
-                      example: 5.25
-          '400':
-            description: Bad request (e.g., invalid order data)
-            content:
-              application/json:
-                schema:
-                  # Error object definition (same as above)
-                  type: object
-                  required:
-                    - code
-                    - message
-                  properties:
-                    code:
-                      type: integer
-                      format: int32
-                      description: Error code
-                      example: 400
-                    message:
-                      type: string
-                      description: Error message
-                      example: Invalid input data
-          '500':
-            description: Server error
-            content:
-              application/json:
-                schema:
-                  # Error object definition (same as above)
-                  type: object
-                  required:
-                    - code
-                    - message
-                  properties:
-                    code:
-                      type: integer
-                      format: int32
-                      description: Error code
-                      example: 500
-                    message:
-                      type: string
-                      description: Error message
-                      example: Internal server error
-
       get:
         tags:
           - Orders
@@ -165,60 +37,63 @@
                 schema:
                   type: array
                   items:
-                    # Order object definition
-                    type: object
-                    properties:
-                      id:
-                        type: integer
-                        readOnly: true
-                        description: Order ID
-                        example: 123
-                      customer_name:
-                        type: string
-                        description: Customer name
-                        example: John Doe
-                        minLength: 3
-                        maxLength: 50
-                      items:
-                        type: array
-                        description: Items in the order
-                        items:
-                          # OrderItem object definition
-                          type: object
-                          properties:
-                            menu_item_id:
-                              type: integer
-                              description: Menu item ID
-                              example: 456
-                            quantity:
-                              type: integer
-                              description: Quantity
-                              example: 2
-                      total_price:
-                        type: number
-                        format: float
-                        description: Total order price
-                        example: 10.50
+                    $ref: '#/components/schemas/Order'  # Reference to Order schema
           '500':
             description: Server error
             content:
               application/json:
                 schema:
-                  # Error object definition
-                  type: object
-                  required:
-                    - code
-                    - message
-                  properties:
-                    code:
-                      type: integer
-                      format: int32
-                      description: Error code
-                      example: 500
-                    messages:
-                      type: string
-                      description: Error message
-                      example: Internal server error
+                  $ref: '#/components/schemas/Error'  # Reference to Error schema
+          '503':
+            description: Service Unavailable
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ServiceUnavailableError'  # Reference to 503 schema
+
+      post: 
+        tags:
+          - Orders
+        summary: Create a new order
+        description: Creates a new order in the coffee shop.
+        operationId: createOrder
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                # Use Order schema, but make 'id' property writeOnly
+                allOf:
+                  - $ref: '#/components/schemas/Order'
+                  - type: object
+                    properties:
+                      id:
+                        writeOnly: true
+        responses:
+          '201':
+            description: Order created
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Order'  # Reference to Order schema
+          '400':
+            description: Bad request (e.g., invalid order data)
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'  # Reference to Error schema
+          '500':
+            description: Server error
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'  # Reference to Error schema
+          '503':
+            description: Service Unavailable
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ServiceUnavailableError'  # Reference to 503 schema
 
     /orders/{order_id}:
       delete:
@@ -243,41 +118,21 @@
             content:
               application/json:
                 schema:
-                  # Error object definition (same as above)
-                  type: object
-                  required:
-                    - code
-                    - message
-                  properties:
-                    code:
-                      type: integer
-                      format: int32
-                      description: Error code
-                      example: 404
-                    message:
-                      type: string
-                      description: Error message
-                      example: Order not found
+                  $ref: '#/components/schemas/Error'  # Reference to Error schema
           '500':
             description: Server error
             content:
               application/json:
                 schema:
-                  # Error object definition (same as above)
-                  type: object
-                  required:
-                    - code
-                    - message
-                  properties:
-                    code:
-                      type: integer
-                      format: int32
-                      description: Error code
-                      example: 500
-                    message:
-                      type: string
-                      description: Error message
-                      example: Internal server error
+                  $ref: '#/components/schemas/Error'  # Reference to Error schema
+          '503':
+            description: Service Unavailable
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ServiceUnavailableError'  # Reference to 503 schema
+
+
     /menu:
       get:
         tags:
@@ -293,47 +148,117 @@
                 schema:
                   type: array
                   items:
-                    # MenuItem object definition
-                    type: object
-                    properties:
-                      id:
-                        type: integer
-                        readOnly: true
-                        description: Menu item ID
-                        example: 456
-                      name:
-                        type: string
-                        description: Name of the item
-                        example: Cappuccino
-                        minLength: 3
-                        maxLength: 50
-                      description:
-                        type: string
-                        nullable: true
-                        description: Description of the item
-                        example: A delicious cappuccino made with our finest espresso.
-                      price:
-                        type: number
-                        format: float
-                        description: Price of the item
-                        example: 3.50
+                    $ref: '#/components/schemas/MenuItem'  # Reference to MenuItem schema
           '500':
             description: Server error
             content:
               application/json:
                 schema:
-                  # Error object definition (same as above)
-                  type: object
-                  required:
-                    - code
-                    - message
-                  properties:
-                    code:
-                      type: integer
-                      format: int32
-                      description: Error code
-                      example: 500
-                    message:
-                      type: string
-                      description: Error message
-                      example: Internal server error
+                  $ref: '#/components/schemas/Error'  # Reference to Error schema
+          '503':
+            description: Service Unavailable
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ServiceUnavailableError'  # Reference to 503 schema
+  # Security Schemes
+  # Basic authentication is used for all endpoints.
+  components:
+    securitySchemes:
+      basicAuth:
+        type: http
+        scheme: basic
+  # Define reusable schemas
+    schemas:
+      Order:  # Schema for Order object
+        type: object
+        properties:
+          id:
+            type: integer
+            readOnly: true
+            description: Order ID
+            example: 123
+          customer_name:
+            type: string
+            description: Customer name
+            example: John Doe
+            minLength: 3
+            maxLength: 50
+          items:
+            type: array
+            description: Items in the order
+            items:
+              $ref: '#/components/schemas/OrderItem' 
+          total_price:
+            type: number
+            format: float
+            description: Total order price
+            example: 10.50
+      
+      OrderItem:  # Schema for OrderItem object
+        type: object
+        properties:
+          menu_item_id:
+            type: integer
+            description: Menu item ID
+            example: 456
+          quantity:
+            type: integer
+            description: Quantity
+            example: 2
+
+      MenuItem:  # Schema for MenuItem object
+        type: object
+        properties:
+          id:
+            type: integer
+            readOnly: true
+            description: Menu item ID
+            example: 456
+          name:
+            type: string
+            description: Name of the item
+            example: Cappuccino
+            minLength: 3
+            maxLength: 50
+          description:
+            type: string
+            nullable: true
+            description: Description of the item
+            example: A delicious cappuccino made with our finest espresso.
+          price:
+            type: number
+            format: float
+            description: Price of the item
+            example: 3.50
+
+      Error:  # Schema for Error object
+        type: object
+        required:
+          - code
+          - message
+        properties:
+          code:
+            type: integer
+            format: int32
+            description: Error code
+            example: 500
+          message:
+            type: string
+            description: Error message
+            example: Internal server error
+      ServiceUnavailableError:  # Schema for 503 Service Unavailable Error
+        type: object
+        required:
+          - code
+          - message
+        properties:
+          code:
+            type: integer
+            format: int32
+            description: Error code
+            example: 503
+          message:
+            type: string
+            description: Error message
+            example: Service Unavailable - The server is currently unavailable. Try again later.
