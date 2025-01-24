@@ -16,12 +16,55 @@
       description: Operations with menu
     - name: Customers
       description: Operations with customers
+    - name: Recipes
+      description: Operations with coffee recipes
   servers:
     - url: https://api.coffeshop.com/v1
       description: Production server (uses live data)
     - url: https://sandbox-api.coffeshop.com:8443/v1
       description: Sandbox server (uses test data)
   paths:
+    /coffeeRecipes/{coffee_name}:  # GET coffee recipe endpoint
+      get:
+        tags:
+          - Recipes
+        summary: Get coffee recipe
+        description: Returns the recipe for a specific coffee.
+        operationId: getCoffeeRecipe
+        parameters:
+          - in: path
+            name: coffee_name
+            schema:
+              type: string
+            required: true
+            description: Name of the coffee (e.g., cappuccino, latte)
+            example: cappuccino
+        responses:
+          '200':
+            description: Coffee recipe found
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/CoffeeRecipe'
+          '404':
+            description: Coffee recipe not found
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'
+          '500':
+            description: Server error
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'
+          '503':
+            description: Service Unavailable
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ServiceUnavailableError'  # Reference to 503 schema
+
     /orders:
       get:
         tags:
@@ -161,6 +204,47 @@
               application/json:
                 schema:
                   $ref: '#/components/schemas/ServiceUnavailableError'  # Reference to 503 schema
+      put:  # UPDATE menu endpoint
+        tags:
+          - Menu
+        summary: Update the menu
+        description: Updates the entire menu of the coffee shop.
+        operationId: updateMenu
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MenuItem'
+        responses:
+          '200':
+            description: Menu updated successfully
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/MenuItem'
+          '400':
+            description: Bad request (e.g., invalid menu data)
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'
+          '500':
+            description: Server error
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'
+          '503':
+            description: Service Unavailable
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ServiceUnavailableError'  # Reference to 503 schema
   # Security Schemes
   # Basic authentication is used for all endpoints.
   components:
@@ -170,6 +254,23 @@
         scheme: basic
   # Define reusable schemas
     schemas:
+      CoffeeRecipe: # Schema for Coffee Recipe
+        type: object
+        properties:
+          name:
+            type: string
+            description: Name of the coffee
+            example: Cappuccino
+          ingredients:
+            type: array
+            description: List of ingredients
+            items:
+              type: string
+              example: Espresso
+          instructions:
+            type: string
+            description: Step-by-step instructions
+            example: Brew espresso, froth milk, combine...
       Order:  # Schema for Order object
         type: object
         properties:
