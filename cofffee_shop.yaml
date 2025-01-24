@@ -30,6 +30,127 @@
       description: Sandbox server (uses test data)
   paths:
     /orders:
+      post: 
+        tags:
+          - Orders
+        summary: Create a new order
+        description: Creates a new order in the coffee shop.
+        operationId: createOrder
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                # Order object definition (similar to GET /orders, but without id)
+                type: object
+                properties:
+                  customer_name:
+                    type: string
+                    description: Customer name
+                    example: Jane Doe
+                    minLength: 3
+                    maxLength: 50
+                  items:
+                    type: array
+                    description: Items in the order
+                    items:
+                      # OrderItem object definition
+                      type: object
+                      properties:
+                        menu_item_id:
+                          type: integer
+                          description: Menu item ID
+                          example: 789
+                        quantity:
+                          type: integer
+                          description: Quantity
+                          example: 1
+                  total_price:
+                    type: number
+                    format: float
+                    description: Total order price
+                    example: 5.25
+        responses:
+          '201':
+            description: Order created
+            content:
+              application/json:
+                schema:
+                  # Order object definition (same as GET /orders)
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      readOnly: true
+                      description: Order ID
+                      example: 456
+                    customer_name:
+                      type: string
+                      description: Customer name
+                      example: Jane Doe
+                      minLength: 3
+                      maxLength: 50
+                    items:
+                      type: array
+                      description: Items in the order
+                      items:
+                        # OrderItem object definition
+                        type: object
+                        properties:
+                          menu_item_id:
+                            type: integer
+                            description: Menu item ID
+                            example: 789
+                          quantity:
+                            type: integer
+                            description: Quantity
+                            example: 1
+                    total_price:
+                      type: number
+                      format: float
+                      description: Total order price
+                      example: 5.25
+          '400':
+            description: Bad request (e.g., invalid order data)
+            content:
+              application/json:
+                schema:
+                  # Error object definition (same as above)
+                  type: object
+                  required:
+                    - code
+                    - message
+                  properties:
+                    code:
+                      type: integer
+                      format: int32
+                      description: Error code
+                      example: 400
+                    message:
+                      type: string
+                      description: Error message
+                      example: Invalid input data
+          '500':
+            description: Server error
+            content:
+              application/json:
+                schema:
+                  # Error object definition (same as above)
+                  type: object
+                  required:
+                    - code
+                    - message
+                  properties:
+                    code:
+                      type: integer
+                      format: int32
+                      description: Error code
+                      example: 500
+                    message:
+                      type: string
+                      description: Error message
+                      example: Internal server error
+
       get:
         tags:
           - Orders
