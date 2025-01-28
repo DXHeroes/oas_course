@@ -1,6 +1,8 @@
 # oas_course
 Set of materials for OAS course
 
+# [START HERE](https://raw.githubusercontent.com/DXHeroes/oas_course/refs/heads/main/start_here.yaml)
+
 OAS versions:
 
 [Initial version](https://github.com/DXHeroes/oas_course/commit/fb8391b789b360007c5e29cdddb8c18ac52bcd41)
