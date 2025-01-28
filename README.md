@@ -12,3 +12,5 @@ OAS versions:
 [Fourth version](https://github.com/DXHeroes/oas_course/commit/f382d93bc7d8bc6b32b8168392154ca42ec92337)
 
 [Fifth version](https://github.com/DXHeroes/oas_course/commit/09e04d3d9bfae59c6d7e9cbf939963c32fcfbfa7)
+
+[Sixth version](https://github.com/DXHeroes/oas_course/commit/75f46c928e91a3b7fe967cbc27052a47d79ce0b2)
