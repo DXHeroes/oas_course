@@ -104,6 +104,15 @@
           required: true
           content:
             application/json:
+              examples:
+                NewOrder:
+                  value:
+                    customer_name: John Doe
+                    items:
+                      - menu_item_id: 456
+                        quantity: 2
+                      - menu_item_id: 789
+                        quantity: 1
               schema:
                 # Use Order schema, but make 'id' property writeOnly
                 allOf:
@@ -117,24 +126,50 @@
             description: Order created
             content:
               application/json:
+                examples:
+                  CreatedOrder:
+                    value:
+                      id: 123
+                      customer_name: John Doe
+                      total_price: 10.50
+                      items:
+                        - menu_item_id: 456
+                          quantity: 2
+                        - menu_item_id: 789
+                          quantity: 1
                 schema:
                   $ref: '#/components/schemas/Order'  # Reference to Order schema
           '400':
             description: Bad request (e.g., invalid order data)
             content:
               application/json:
+                examples:
+                  BadRequest:
+                    value:
+                      code: 400
+                      message: Invalid order data
                 schema:
                   $ref: '#/components/schemas/Error'  # Reference to Error schema
           '500':
             description: Server error
             content:
               application/json:
+                examples:
+                  ServerError:
+                    value:
+                      code: 500
+                      message: Internal server error
                 schema:
                   $ref: '#/components/schemas/Error'  # Reference to Error schema
           '503':
             description: Service Unavailable
             content:
               application/json:
+                examples:
+                  ServiceUnavailable:
+                    value:
+                      code: 503
+                      message: Service Unavailable - The server is currently unavailable. Try again later.
                 schema:
                   $ref: '#/components/schemas/ServiceUnavailableError'  # Reference to 503 schema
 
@@ -326,11 +361,13 @@
             type: string
             nullable: true
             description: Description of the item
+            maxLength: 100
             example: A delicious cappuccino made with our finest espresso.
           price:
             type: number
             format: float
             description: Price of the item
+            minimum: 0
             example: 3.50
 
       Error:  # Schema for Error object
