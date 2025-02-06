@@ -194,6 +194,7 @@ Learn how to enhance an existing JSON Schema by adding a `promotion` property th
 [4_result.yaml](JSON_schema/4_result.yaml)
 
 
+# [START HERE](https://raw.githubusercontent.com/DXHeroes/oas_course/refs/heads/main/start_here.yaml)
 
 OAS versions:
 
