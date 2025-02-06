@@ -1,0 +1,65 @@
+# Specifies the version of JSON Schema being used
+$schema: "https://json-schema.org/draft/2020-12/schema"
+
+# Title and description provide metadata about the schema
+title: "MenuItem"
+description: "A schema representing a menu item."
+
+# Indicates that the data should be an object
+type: "object"
+
+# Defines the properties of the object
+properties:
+  # An integer that serves as the menu item ID; marked as read-only
+  id:
+    type: integer
+    description: "Menu item ID"
+    readOnly: true
+    example: 456
+
+  # A string representing the name of the item, with a length between 3 and 50 characters
+  name:
+    type: string
+    description: "Name of the item"
+    minLength: 3
+    maxLength: 50
+    example: "Cappuccino"
+
+  # An optional string (nullable) describing the item, with a maximum length of 100 characters
+  description:
+    type: string
+    description: "Description of the item"
+    maxLength: 100
+    nullable: true
+    example: "A delicious cappuccino made with our finest espresso."
+
+  # A number representing the price of the item, which must be at least 0
+  price:
+    type: number
+    description: "Price of the item"
+    minimum: 0
+    example: 3.50
+
+  # An optional string indicating the size of the item; must be one of the specified values and default value should be "Medium"
+  size:
+    type: string
+    description: "Size of the item"
+    enum: ["Small", "Medium", "Large"]
+    default: "Medium"
+    example: "Medium"
+
+  # An optional array of strings representing additional items that can be added; allows 0 to 5 items
+  extraItems:
+    type: array
+    description: "Additional items that can be added to the menu item"
+    items:
+      type: string
+    minItems: 0
+    maxItems: 5
+    example: ["Extra Shot"]
+
+# Specifies that the 'id', 'name', and 'price' properties are mandatory
+required:
+  - id
+  - name
+  - price
