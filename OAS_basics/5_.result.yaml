@@ -1,0 +1,456 @@
+  openapi: 3.0.0
+  info:
+    title: Coffee Shop API
+    version: 1.0.0
+    description: API for managing orders and menu in a coffee shop.
+    contact:
+      name: CoffeShop API Support
+      url: https://www.coffeeshop.com/support
+      email: support@coffeshop.com
+  security:
+    - basicAuth: []  # Apply basic authentication to all paths
+  tags:
+    - name: Orders
+      description: Operations with orders
+    - name: Menu
+      description: Operations with menu
+    - name: Customers
+      description: Operations with customers
+    - name: Recipes
+      description: Operations with coffee recipes
+  servers:
+    - url: https://api.coffeshop.com/v1
+      description: Production server (uses live data)
+    - url: https://sandbox-api.coffeshop.com:8443/v1
+      description: Sandbox server (uses test data)
+  paths:
+    /orders:
+      get:
+        tags:
+          - Orders
+        summary: Retrieve a list of all orders
+        description: Returns an array of all orders placed in the coffee shop.
+        operationId: getOrders
+        responses:
+          '200':
+            description: List of all orders
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Order'
+          '500':
+            description: Internal server error
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'
+      post:
+        tags:
+          - Orders
+        summary: Create a new order
+        description: Allows customers to create a new order in the coffee shop.
+        operationId: createOrder
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        responses:
+          '201':
+            description: Order created successfully
+            content:
+              application/json:
+                schema:
+                  type: integer
+                  example: 101
+                  description: ID of the created order
+          '400':
+            description: Bad request (e.g., invalid order data)
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'
+          '500':
+            description: Server error
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'
+    /orders/{orderId}:
+      delete:
+        tags:
+          - Orders
+        summary: Delete an order by its ID
+        description: Removes an order from the coffee shop system using the provided orderId.
+        operationId: deleteOrderById
+        parameters:
+          - name: orderId
+            in: path
+            required: true
+            schema:
+              type: integer
+              example: 123
+        responses:
+          '200':
+            description: Order deleted successfully
+            content:
+              application/json:
+                schema:
+                  type: string
+                  example: "Order deleted successfully."
+          '404':
+            description: Order not found
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'
+          '500':
+            description: Server error
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'
+      put:
+        tags:
+          - Orders
+        summary: Update an order by its ID
+        description: Updates an order's details using the provided orderId.
+        operationId: updateOrderById
+        parameters:
+          - name: orderId
+            in: path
+            required: true
+            schema:
+              type: integer
+              example: 123
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        responses:
+          '200':
+            description: Order updated successfully
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Order'
+          '404':
+            description: Order not found
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'
+          '500':
+            description: Server error
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'    
+    /menu{menuId}:
+      get:
+        tags:
+          - Menu
+        summary: Get menu by ID
+        description: Returns the menu of the coffee shop by ID.
+        operationId: getMenuById
+        parameters:
+          - name: menuId
+            in: path
+            required: true
+            schema:
+              type: integer
+              example: 123
+        responses:
+          '200':
+            description: Menu of the coffee shop
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/MenuItem'  # Reference to MenuItem schema
+          '404':
+            description: Menu not found
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'  # Reference to Error schema
+      put:  # UPDATE menu endpoint
+        tags:
+          - Menu
+        summary: Update the menu
+        description: Updates the entire menu of the coffee shop.
+        operationId: updateMenu
+        parameters:
+          - name: menuId
+            in: path
+            required: true
+            schema:
+              type: integer
+              example: 123
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MenuItem'
+        responses:
+          '200':
+            description: Menu updated successfully
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/MenuItem'
+          '400':
+            description: Bad request (e.g., invalid menu data)
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'
+          '500':
+            description: Server error
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'
+    /menu:
+      get:
+        tags:
+          - Menu
+        summary: Get menu
+        description: Returns the current menu of the coffee shop.
+        operationId: getMenu
+        responses:
+          '200':
+            description: Menu of the coffee shop
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/MenuItem'  # Reference to MenuItem schema
+          '500':
+            description: Server error
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'  # Reference to Error schema
+      post:  # CREATE menu endpoint
+        tags:
+          - Menu
+        summary: Create a new menu item
+        description: Creates a new menu item in the coffee shop.
+        operationId: createMenuItem
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MenuItem'
+        responses:
+          '200':
+            description: Menu updated successfully
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/MenuItem'
+          '400':
+            description: Bad request (e.g., invalid menu data)
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'
+          '500':
+            description: Server error
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'
+  # Security Schemes
+  # Basic authentication is used for all endpoints.
+  components:
+    securitySchemes:
+      basicAuth:
+        type: http
+        scheme: basic
+  # Define reusable schemas
+    schemas:
+      Order:  # Schema for Order object
+        type: object
+        properties:
+          id:
+            type: integer
+            readOnly: true
+            description: Order ID
+            example: 123
+          customer_name:
+            type: string
+            description: Customer name
+            example: John Doe
+            minLength: 3
+            maxLength: 50
+          items:
+            type: array
+            description: Items in the order
+            items:
+              $ref: '#/components/schemas/OrderItem' 
+          total_price:
+            type: number
+            format: float
+            description: Total order price
+            example: 10.50
+      
+      OrderItem:  # Schema for OrderItem object
+        type: object
+        properties:
+          menu_item_id:
+            type: integer
+            description: Menu item ID
+            example: 456
+          quantity:
+            type: integer
+            description: Quantity
+            example: 2
+      MenuItem:  # Schema for MenuItem object from previous exercises
+        description: "A schema representing a menu item."
+
+        # Indicates that the data should be an object
+        type: "object"
+
+        # Defines the properties of the object
+        properties:
+          # An integer that serves as the menu item ID; marked as read-only
+          id:
+            type: integer
+            description: "Menu item ID"
+            readOnly: true
+            example: 456
+
+          # A string representing the name of the item, with a length between 3 and 50 characters
+          name:
+            type: string
+            description: "Name of the item"
+            minLength: 3
+            maxLength: 50
+            example: "Cappuccino"
+
+          # An optional string (nullable) describing the item, with a maximum length of 100 characters
+          description:
+            type: string
+            description: "Description of the item"
+            maxLength: 100
+            nullable: true
+            example: "A delicious cappuccino made with our finest espresso."
+
+          # A number representing the price of the item, which must be at least 0
+          price:
+            type: number
+            description: "Price of the item"
+            minimum: 0
+            example: 3.50
+
+          # An optional string indicating the size of the item; must be one of the specified values
+          size:
+            type: string
+            description: "Size of the item"
+            enum: ["Small", "Medium", "Large"]
+            example: "Medium"
+
+          # An optional array of strings representing additional items that can be added; allows 0 to 5 items
+          extraItems:
+            type: array
+            description: "Additional items that can be added to the menu item"
+            items:
+              type: string
+            minItems: 0
+            maxItems: 5
+            example: ["Extra Shot", "Soy Milk"]
+
+          # An optional array of objects representing modifiers for the menu item
+          modifiers:
+            type: array
+            description: "Modifiers for the menu item"
+            items:
+              type: object
+              properties:
+                # The name of the modifier (e.g., "Milk Type", "Syrup Flavor")
+                name:
+                  type: string
+                  description: "Name of the modifier"
+                # A list of possible options for this modifier (e.g., ["Whole Milk", "Skim Milk", "Soy Milk"])
+                options:
+                  type: array
+                  description: "Possible options for the modifier"
+                  items:
+                    type: string
+                  minItems: 1
+                  uniqueItems: true
+              required:
+                - name
+                - options
+
+          # An optional object representing promotion details
+          promotion:
+            type: object
+            description: "Details of the promotion applied to the menu item"
+            # The promotion object must match exactly one of the following schemas
+            oneOf:
+              # Discount Promotion schema
+              - type: object
+                properties:
+                  type:
+                    type: string
+                    enum: ["discount"]
+                    description: "Type of promotion"
+                  amount:
+                    type: number
+                    description: "Discount amount"
+                required:
+                  - type
+                  - amount
+              # Buy One Get One Free Promotion schema
+              - type: object
+                properties:
+                  type:
+                    type: string
+                    enum: ["bogo"]
+                    description: "Type of promotion"
+                  description:
+                    type: string
+                    description: "Description of the promotion"
+                required:
+                  - type
+                  - description
+
+        # Specifies that the 'id', 'name', and 'price' properties are mandatory
+        required:
+          - id
+          - name
+          - price
+
+      Error:  # Schema for Error object
+        type: object
+        required:
+          - code
+          - message
+        properties:
+          code:
+            type: integer
+            format: int32
+            description: Error code
+            example: 500
+          message:
+            type: string
+            description: Error message
+            example: Internal server error

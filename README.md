@@ -2,22 +2,23 @@
 Set of materials for OAS course
 
 
-# Presentation:
+# Presentation
 <!-- TODO link to the presentation -->
 
 # Practical excercises
 
 This section is divided into 4 sections:
  - JSON Schema
- - OpenAPI Schema
+ - OpenAPI Basics
  - OpenAPI Schema - advanced
  - Using OpenAPI Schema in practice
 
 ## 1. JSON Schema
 
-Open API Schema is based on JSON Schema. So, we will start with the basics of JSON Schema.
+Open API Schema is based on JSON Schema. So, we will start with the basics of JSON Schema. This part can be done in **single** YAML file.
 
 Useful links and resources:
+
 [Understanding JSON Schema](https://json-schema.org/understanding-json-schema/basics.html)
 
 [jsonschema.net](https://jsonschema.net/) to create JSON Schemas from JSON objects.
@@ -192,6 +193,169 @@ Learn how to enhance an existing JSON Schema by adding a `promotion` property th
 **Result:**
 
 [4_result.yaml](JSON_schema/4_result.yaml)
+
+
+## 2. OpenAPI Basics
+
+This section is divided into 5 exercises, all of them should be done in single YAML file. You should start from [start_here.yaml](OAS_basics/start_here.yaml) file. This file is already prepared with some of the components defined to help you with the OAS structure and syntax. 
+
+### 2.1. Define reusable Order component
+
+Coffee Shop API by defining a reusable Order component that standardizes the structure of customer orders.
+
+**Requirements:**
+
+- Define the Order Schema
+The Order object should represent a customer's order, including:
+  - **`id`** (integer, read-only): Unique order ID
+  - **`customer_name`** (string, 3-50 characters): Name of the customer
+  - **`items`** (array of OrderItem objects): List of ordered items
+  - **`total_price`** (number, float): Total price of the order
+
+- Define the OrderItem Schema
+The OrderItem object should represent an individual item in an order, including:
+  - **`menu_item_id`** (integer): Reference to a menu item
+  - **`quantity`** (integer): Number of times this item was ordered
+
+**Example JSON Object:**
+
+```json
+{
+  "id": 123,
+  "customer_name": "John Doe",
+  "items": [
+    {
+      "menu_item_id": 456,
+      "quantity": 2
+    },
+    {
+      "menu_item_id": 789,
+      "quantity": 1
+    }
+  ],
+  "total_price": 10.50
+}
+
+```
+
+**Objective:**
+Enhance the existing specification by adding a new component `Order` and `OrderItem`.
+
+**Result:**
+
+[1_result.yaml](OAS_basics/1_result.yaml)
+
+### 2.2. Add endpoint for listing all orders
+
+**Objective:**
+
+Extend the Coffee Shop API by adding a new endpoint that allows users to retrieve a list of all orders. This will help in managing and reviewing orders efficiently.
+
+**API Specification:**
+ - **New Endpoint:** List All Orders
+ - **Path:** /orders
+ - **Method:** GET
+ - **Tag:** Orders
+ - **Summary:** Retrieve a list of all orders.
+ - **Description:** Returns an array of orders placed in the coffee shop.
+ - **Operation ID:** getOrders
+
+**Request Parameters:**
+ - This endpoint does not require any request parameters.
+
+**Responses:**
+- 200 OK - Response Schema: Array of orders
+- 500 Internal Server Error
+
+**Result:**
+
+[2_result.yaml](OAS_basics/2_result.yaml)
+
+### 2.3 Add endpoint for deleting order by id
+
+The Coffee Shop API currently supports retrieving orders but lacks an endpoint for deleting an order by its ID. This task involves adding a new DELETE /orders/{orderId} endpoint to allow clients to delete an order from the system.
+
+**Requirements:**
+- **Path:** /orders/{orderId}
+- **HTTP Method:** DELETE
+- **Tags:** Orders
+- **Summary:** Delete an order by its ID
+- **Description:** Removes an order from the coffee shop system using the provided orderId.
+- **Operation ID:** deleteOrderById
+
+**Request Parameters:**
+- **Path Parameter:**
+  - orderId (integer, required)
+  - Description: The unique identifier of the order to be deleted.
+  - Example: 123
+
+**Responses:**
+- 200 OK with empty response body
+- 404 Not Found
+- 500 Internal Server Error
+
+**Objective:**
+Add a new endpoint for deleting an order by its ID.
+
+**Result:**
+
+[3_result.yaml](OAS_basics/3_result.yaml)
+
+### 2.4 Add endpoint for creating new order
+
+Enhance the Coffee Shop API by adding a new endpoint for creating a new order. This endpoint should allow users to submit an order with details such as customer name, items ordered, and total price.
+
+**Objective:**
+ - Add a new POST /orders endpoint
+ - **Path:** /orders
+ - **Method:** POST
+ - **Tags:** Orders
+ - **Summary:** Create a new order
+ - **Description:** Allows customers to create a new order in the coffee shop.
+ - **Operation ID:** createOrder
+
+ **Request Body:**
+ - Required: true
+ - Content-Type: application/json
+ - Schema:
+   - `Order` object
+
+ **Responses:**
+   - 201 (Created) - Returns ID of the created order
+   - 400 (Bad Request)
+   - 500 (Internal Server Error)
+
+**Result:**
+
+[4_result.yaml](OAS_basics/4_result.yaml)
+
+### 2.5 Add endpoint for updating order by id
+
+The Coffee Shop API currently supports retrieving, creating, and deleting orders. However, it lacks an endpoint to update an existing order by its ID. This task involves adding a `PUT /orders/{orderId}` endpoint to update an order's details.  
+
+**Method**: `PUT`
+**Path**: `/orders/{orderId}`
+**Description**: Updates an order's details using the provided `orderId`.
+
+**Path Parameter**:
+  - `orderId` (integer, required): The ID of the order to be updated.
+
+**Request Body**:
+- The request body must contain an updated `Order` object.
+
+**Responses**  
+- 200 OK – Order updated successfully. Returns updated object
+- 404 Not Found – Order not found. Returns an error object
+- 500 Internal Server Error – Server error. Returns an error object
+
+**Result:**
+
+[5_result.yaml](OAS_basics/5_result.yaml)
+
+
+## 3. OpenAPI Schema - advanced
+
+## 4. Using OpenAPI Schema in practice
 
 
 # [START HERE](https://raw.githubusercontent.com/DXHeroes/oas_course/refs/heads/main/start_here.yaml)
