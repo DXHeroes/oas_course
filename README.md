@@ -2,8 +2,9 @@
 Set of materials for OAS course
 
 
-# Presentation
-<!-- TODO link to the presentation -->
+# Presentation:
+[CSAS_analytik.pdf](CSAS_analytik.pdf)
+
 
 # Practical excercises
 
