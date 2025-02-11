@@ -3,28 +3,41 @@ Set of materials for OAS course
 
 
 # Presentation:
+<!-- TODO link to google? -->
 [CSAS_analytik.pdf](CSAS_analytik.pdf)
 
 
 # Practical excercises
 
 This section is divided into 4 sections:
- - JSON Schema
- - OpenAPI Basics
- - OpenAPI Schema - advanced
- - Using OpenAPI Schema in practice
+ - JSON Schema - basic of JSON Schema exercises
+ - OpenAPI Basics - basics of OpenAPI exercises
+ - OpenAPI Schema - advanced - advanced OpenAPI Schema exercises
+ - Using OpenAPI Schema in practice - using OpenAPI Schema in practice 
+
+ ### Used tools:
+
+ - [VSCode](https://code.visualstudio.com/) - IDE - you can use any other IDE you want but you won't be able to use Spectral extension. You can use [OpenAPI Editor]([text](https://editor-next.swagger.io)) as an alternative (If you don't have any IDE).
+ - [Spectral](https://spectral.stoplight.io/) - OpenAPI linter and formatter used as extension in VSCode
+ 
+  ![Spectral](images/spectral.png)
+ 
+ - [OpenAPI Editor](https://editor-next.swagger.io) to edit, mock and test OpenAPI Schema
+ 
+**Optional (if you have access to it):**
+ - [Mockbin](https://mockbin.io/) to create mock server from OpenAPI Schema
+ - [Postman](https://www.postman.com/) to test OpenAPI Schema
+
 
 ## 1. JSON Schema
 
-Open API Schema is based on JSON Schema. So, we will start with the basics of JSON Schema. This part can be done in **single** YAML file.
+Open API Schema is based on JSON Schema. So, we will start with the basics of JSON Schema. This part can be done in **single** YAML file. **Start by creating a new file with `.yaml` extension**.
 
 Useful links and resources:
 
 [Understanding JSON Schema](https://json-schema.org/understanding-json-schema/basics.html)
 
-[jsonschema.net](https://jsonschema.net/) to create JSON Schemas from JSON objects.
-
-Also most of the modern LLMs can generate JSON Schema from natural language.
+[jsonschema.net](https://jsonschema.net/) to create JSON Schemas from JSON objects. Also most of the modern LLMs can generate JSON Schema from natural language.
 
 ### 1.1 Basic JSON Schema
 
@@ -38,7 +51,7 @@ Given the following JSON object representing a menu item:
   "price": 3.50
 }
 ```
-Create a JSON Schema that describes JSON object with the following conditions:
+Create a JSON Schema that describes JSON object with the following properties:
 
 **`id`**: required attribute, integer
 
@@ -50,7 +63,30 @@ Create a JSON Schema that describes JSON object with the following conditions:
 
 **Objective:**
 
-Learn to define a JSON Schema for describing a simple JSON object representing a menu item. Result should be valid JSON Schema with all the required attributes, title, descriptions, examples
+Learn to define a JSON Schema for describing a simple JSON object representing a menu item. Result should be valid JSON Schema with type `object` and all the required attributes, title, descriptions, examples. Basic structure should look like this:
+
+```yaml
+# Specifies the version of JSON Schema being used
+$schema: "https://json-schema.org/draft/2020-12/schema"
+
+# Title and description provide metadata about the schema
+title: "MenuItem"
+description: "A schema representing a menu item."
+
+# Indicates that the data should be an object
+type: "object"
+
+# Defines the properties of the object
+properties:
+  # Property 1
+  property1:
+    # Property type (string, number, boolean, object, array)
+    type: "string"
+    # Property description
+    description: "Description of property 1"
+    # Property example value should be valid for the property type
+    example: "Example value"
+```
 
 **Result:**
 
@@ -81,6 +117,30 @@ Building upon the `MenuItem` schema from Exercise 1.1, extend the schema to incl
 
 Learn how to enhance an existing JSON Schema by adding enumerated values (enum) and arrays, ensuring that the new properties adhere to specified constraints.
 
+Enums are defined set of values that can be used for a property.
+
+```yaml
+type: "object"
+properties:
+  # Enum values
+  enumProperty:
+    type: "string"
+    enum:
+      - "value1"
+      - "value2"
+      - "value3"
+```
+
+Array is defined as a list of values.
+
+```yaml
+type: "object"
+properties:
+  arrayProperty:
+    type: "array"
+    items:
+      # definition of the item in the array
+```
 **Result:**
 
 [2_result.yaml](JSON_schema/2_result.yaml)
@@ -358,9 +418,7 @@ The Coffee Shop API currently supports retrieving, creating, and deleting orders
 
 ## 4. Using OpenAPI Schema in practice
 
-
-# [START HERE](https://raw.githubusercontent.com/DXHeroes/oas_course/refs/heads/main/start_here.yaml)
-
+<!-- 
 OAS versions:
 
 [Initial version](https://github.com/DXHeroes/oas_course/commit/fb8391b789b360007c5e29cdddb8c18ac52bcd41)
@@ -373,4 +431,4 @@ OAS versions:
 
 [Fourth task diff](https://github.com/DXHeroes/oas_course/commit/09e04d3d9bfae59c6d7e9cbf939963c32fcfbfa7)
 
-[Fifth task diff](https://github.com/DXHeroes/oas_course/commit/75f46c928e91a3b7fe967cbc27052a47d79ce0b2)
+[Fifth task diff](https://github.com/DXHeroes/oas_course/commit/75f46c928e91a3b7fe967cbc27052a47d79ce0b2) -->
