@@ -9,10 +9,9 @@ Set of materials for OAS course
 
 # Practical excercises
 
-This section is divided into 4 sections:
+This section is divided into 3 sections:
  - JSON Schema - basic of JSON Schema exercises
  - OpenAPI Basics - basics of OpenAPI exercises
- - OpenAPI Schema - advanced - advanced OpenAPI Schema exercises
  - Using OpenAPI Schema in practice - using OpenAPI Schema in practice 
 
  ### Used tools:
@@ -351,7 +350,7 @@ The Coffee Shop API currently supports retrieving orders but lacks an endpoint f
   - Example: 123
 
 **Responses:**
-- 200 OK with empty response body
+- 204 OK with empty response body
 - 404 Not Found
 - 500 Internal Server Error
 
@@ -414,9 +413,7 @@ The Coffee Shop API currently supports retrieving, creating, and deleting orders
 [5_result.yaml](OAS_basics/5_result.yaml)
 
 
-## 3. OpenAPI Schema - advanced
-
-## 4. Using OpenAPI Schema in practice
+## 3. Using OpenAPI Schema in practice
 
 <!-- 
 OAS versions:
