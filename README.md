@@ -3,8 +3,7 @@ Set of materials for OAS course
 
 
 # Presentation:
-<!-- TODO link to google? -->
-[CSAS_analytik.pdf](CSAS_analytik.pdf)
+[CSAS_analytik.pdf](https://drive.google.com/drive/folders/1LZ-4SooXNu0EmayqRARqjrN5jAdiL_oq?usp=sharing)
 
 
 # Practical excercises
@@ -36,7 +35,7 @@ Useful links and resources:
 
 [Understanding JSON Schema](https://json-schema.org/understanding-json-schema/basics.html)
 
-[jsonschema.net](https://jsonschema.net/) to create JSON Schemas from JSON objects. Also most of the modern LLMs can generate JSON Schema from natural language.
+[jsonschema.net](https://jsonschema.net/) to create JSON Schemas from JSON objects. Another useful tool is [json-to-yaml](https://jsonformatter.org/json-to-yaml) to convert JSON Schema to YAML. Also most of the modern LLMs can generate JSON Schema from natural language. Feel free to use any tools you want but make sure that **you understand the schema you are creating**.
 
 ### 1.1 Basic JSON Schema
 
@@ -415,17 +414,20 @@ The Coffee Shop API currently supports retrieving, creating, and deleting orders
 
 ## 3. Using OpenAPI Schema in practice
 
-<!-- 
-OAS versions:
+### Mockbin:
 
-[Initial version](https://github.com/DXHeroes/oas_course/commit/fb8391b789b360007c5e29cdddb8c18ac52bcd41)
+You can use Mockbin to create mock server from OpenAPI Schema, it will generate mock server running on public URL. You can use it to test your API before it is implemented.
 
-[First task diff](https://github.com/DXHeroes/oas_course/commit/c2233d7793e1f54603f79e2297125dd115a8e410)
+  ![Mockbin](images/mockbin.png)
 
-[Second task diff](https://github.com/DXHeroes/oas_course/commit/a8191f9df8f96e464dec874e5b56260a0a1b78c9)
+### Postman:
 
-[Thirth task diff](https://github.com/DXHeroes/oas_course/commit/f382d93bc7d8bc6b32b8168392154ca42ec92337)
+Use Postman to test OpenAPI Schema. You can use it to import OpenAPI Schema and call endpoints. In setup you can use environment variables to switch between different environments (use URL from Mockbin).
 
-[Fourth task diff](https://github.com/DXHeroes/oas_course/commit/09e04d3d9bfae59c6d7e9cbf939963c32fcfbfa7)
+  ![Postman](images/postman.png)
 
-[Fifth task diff](https://github.com/DXHeroes/oas_course/commit/75f46c928e91a3b7fe967cbc27052a47d79ce0b2) -->
+### OpenAPI Editor:
+
+Use OpenAPI Editor to edit OpenAPI Schema. You can use it to edit OpenAPI Schema, mock server and test API.
+
+  ![OpenAPI Editor](images/swagger.png)
