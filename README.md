@@ -365,13 +365,7 @@ Add a new endpoint for deleting an order by its ID.
 Enhance the Coffee Shop API by adding a new endpoint for creating a new order. This endpoint should allow users to submit an order with details such as customer name, items ordered, and total price.
 
 **Objective:**
- - Add a new POST /orders endpoint
- - **Path:** /orders
- - **Method:** POST
- - **Tags:** Orders
- - **Summary:** Create a new order
- - **Description:** Allows customers to create a new order in the coffee shop.
- - **Operation ID:** createOrder
+ - Add a new endpoint for creating a new order, it has the same requirements as previous exercise.
 
  **Request Body:**
  - Required: true
