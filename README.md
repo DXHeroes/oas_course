@@ -258,6 +258,10 @@ Learn how to enhance an existing JSON Schema by adding a `promotion` property th
 
 This section is divided into 5 exercises, all of them should be done in single YAML file. You should start from [start_here.yaml](OAS_basics/start_here.yaml) file. This file is already prepared with some of the components defined to help you with the OAS structure and syntax. 
 
+**Useful links:**
+[OAS reference](https://swagger.io/specification/v3/) - this is the official reference for OpenAPI Specification. It will be useful when you will need to check the syntax of the OpenAPI Specification.
+
+
 ### 2.1. Define reusable Order component
 
 Coffee Shop API by defining a reusable Order component that standardizes the structure of customer orders.
