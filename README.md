@@ -84,6 +84,10 @@ properties:
     description: "Description of property 1"
     # Property example value should be valid for the property type
     example: "Example value"
+# Defines that the object is required to have the following properties
+required:
+  - property1
+  - property2
 ```
 
 **Result:**
@@ -123,6 +127,7 @@ properties:
   # Enum values
   enumProperty:
     type: "string"
+    default: "value2"
     enum:
       - "value1"
       - "value2"
@@ -136,6 +141,8 @@ type: "object"
 properties:
   arrayProperty:
     type: "array"
+    minItems: 0
+    maxItems: 500
     items:
       # definition of the item in the array
 ```
@@ -191,6 +198,26 @@ Building upon the `MenuItem` schema from Exercise 1.2, extend the schema to incl
 **Objective:**
 
 Learn how to enhance an existing JSON Schema by adding complex arrays, ensuring that the new properties adhere to specified constraints.
+
+Unique items are used to ensure that the items in the array are unique.
+
+```yaml
+type: "object"
+properties:
+  arrayProperty:
+    type: "array"
+    items:
+      type: "object"
+      properties:
+        firstProperty:
+          type: "string"
+        secondProperty:
+          type: "string"
+      required:
+        - firstProperty
+        - secondProperty
+    uniqueItems: true
+```
 
 **Result:**
 
@@ -249,6 +276,32 @@ Building upon the `MenuItem` schema from Exercise 1.3, enhance the schema to inc
 
 Learn how to enhance an existing JSON Schema by adding a `promotion` property that can represent different types of promotions applied to a menu item. Utilize the `oneOf` keyword to define validation rules for the promotion types.
 
+oneOf is used to define validation rules for the promotion types.
+
+```yaml
+type: "object"
+properties:
+  # Property that can be one of the following schemas
+  propertyThatCanBeOneOf:
+    oneOf:
+      # First oneOf schema
+      - type: "object"
+        properties:
+          firstProperty:
+            type: "string"
+          secondProperty:
+            type: "string"
+        required:
+          - firstProperty
+          - secondProperty
+      # Second oneOf schema
+      - type: "object"
+        properties:
+          firstProperty:
+            type: "string"
+          secondProperty:
+            type: "string"
+```
 **Result:**
 
 [4_result.yaml](JSON_schema/4_result.yaml)

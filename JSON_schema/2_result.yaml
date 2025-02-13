@@ -14,7 +14,6 @@ properties:
   id:
     type: integer
     description: "Menu item ID"
-    readOnly: true
     example: 456
 
   # A string representing the name of the item, with a length between 3 and 50 characters
@@ -44,7 +43,10 @@ properties:
   size:
     type: string
     description: "Size of the item"
-    enum: ["Small", "Medium", "Large"]
+    enum:
+      - Small
+      - Medium
+      - Large
     default: "Medium"
     example: "Medium"
 
@@ -56,7 +58,9 @@ properties:
       type: string
     minItems: 0
     maxItems: 5
-    example: ["Extra Shot"]
+    example:
+      - "Extra Shot"
+      - "Soy Milk"
 
 # Specifies that the 'id', 'name', and 'price' properties are mandatory
 required:

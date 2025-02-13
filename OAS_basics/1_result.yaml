@@ -164,7 +164,6 @@ components:
       properties:
         id:
           type: integer
-          readOnly: true
           description: Order ID
           example: 123
         customer_name:
@@ -207,7 +206,6 @@ components:
         id:
           type: integer
           description: "Menu item ID"
-          readOnly: true
           example: 456
 
         # A string representing the name of the item, with a length between 3 and 50 characters
@@ -237,7 +235,10 @@ components:
         size:
           type: string
           description: "Size of the item"
-          enum: ["Small", "Medium", "Large"]
+          enum:
+            - Small
+            - Medium
+            - Large
           example: "Medium"
 
         # An optional array of strings representing additional items that can be added; allows 0 to 5 items
@@ -248,7 +249,9 @@ components:
             type: string
           minItems: 0
           maxItems: 5
-          example: ["Extra Shot", "Soy Milk"]
+          example:
+            - "Extra Shot"
+            - "Soy Milk"
 
         # An optional array of objects representing modifiers for the menu item
         modifiers:
@@ -284,7 +287,8 @@ components:
               properties:
                 type:
                   type: string
-                  enum: ["discount"]
+                  enum:
+                    - discount
                   description: "Type of promotion"
                 amount:
                   type: number
@@ -297,7 +301,8 @@ components:
               properties:
                 type:
                   type: string
-                  enum: ["bogo"]
+                  enum:
+                    - bogo
                   description: "Type of promotion"
                 description:
                   type: string
