@@ -72,7 +72,6 @@ properties:
         name:
           type: string
           description: "Name of the modifier"
-          minLength: 3
         # A list of possible options for this modifier (e.g., ["Whole Milk", "Skim Milk", "Soy Milk"])
         options:
           type: array

@@ -76,7 +76,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
 
-  /menu{menuId}:
+  /menu/{menuId}:
     get:
       tags:
         - Menu
@@ -121,18 +121,14 @@ paths:
         content:
           application/json:
             schema:
-              type: array
-              items:
-                $ref: "#/components/schemas/MenuItem"
+              $ref: "#/components/schemas/MenuItem"
       responses:
         "200":
           description: Menu updated successfully
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/MenuItem"
+                $ref: "#/components/schemas/MenuItem"
         "400":
           description: Bad request (e.g., invalid menu data)
           content:
@@ -178,18 +174,14 @@ paths:
         content:
           application/json:
             schema:
-              type: array
-              items:
-                $ref: "#/components/schemas/MenuItem"
+              $ref: "#/components/schemas/MenuItem"
       responses:
         "200":
           description: Menu updated successfully
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/MenuItem"
+                $ref: "#/components/schemas/MenuItem"
         "400":
           description: Bad request (e.g., invalid menu data)
           content:

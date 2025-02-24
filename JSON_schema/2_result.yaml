@@ -6,7 +6,7 @@ title: "MenuItem"
 description: "A schema representing a menu item."
 
 # Indicates that the data should be an object
-type: "object"
+type: object
 
 # Defines the properties of the object
 properties:
